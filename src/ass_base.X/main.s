@@ -76,7 +76,7 @@ INISYS:
     MOVWF 20
 
 main:
-    ; !C3 -> 21
+    ; R21[0]=!C3
     MOVWF 20
     ANDLW 0b00001000
     MOVWF 21
@@ -87,7 +87,7 @@ main:
     MOVF  21,0
     ANDLW 0b00000001
     MOVWF 21
-    ; C5 -> 22
+    ; R22[0]=C5
     MOVWF 20
     ANDLW 0b00100000
     MOVWF 22
@@ -100,13 +100,13 @@ main:
     ANDLW 0b00000001
     MOVWF 22
 
-    ; OPERATION
+    ; OPERATION R23[0]= !C3 & C5
     MOVF  21,0
     ANDWF 22,0
     MOVWF 23
     BCF  PORTD,0
-    BTFSC 23,0
-    goto ON
+    BTFSC 23,0   ; si (!C3 & C5)==1, entonces RD0=1
+    goto ON      ; sino ir al "main"
     goto main ;read again
 
 ON:
