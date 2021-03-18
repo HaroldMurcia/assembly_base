@@ -15,6 +15,9 @@ CONFIG PWRTE=ON
 CONFIG BOREN=OFF
 PSECT udata_bank0
 
+    
+   
+    
 max:
 DS 1 ;reserve 1 byte for max
 
@@ -26,17 +29,77 @@ resetVec:
     PAGESEL INISYS ;jump to the main routine
     goto INISYS
 
+
+    
+#define	LED_ROJO PORTD,1
+#define	LED_DER PORTD,2
+#define	LED_IZQ PORTD,3
+#define	MDA PORTD,4  
+#define	MDB PORTD,5
+#define	MIA PORTD,6
+#define	MIB PORTD,7  
+#define S_CEN PORTB,0  
+#define S_DER PORTB,1  
+#define S_IZQ PORTB,2  
+    
 PSECT code
+
+
+AVANZAR MACRO
+ BSF MDA
+ BSF MIA
+ BCF MDB
+ BCF MIB
+ BCF LED_ROJO
+ BCF LED_DER
+ BCF LED_IZQ
+ENDM
+ 
+STOP MACRO
+ BCF MDA
+ BCF MIA
+ BCF MDB
+ BCF MIB
+ BSF LED_ROJO
+ BCF LED_DER
+ BCF LED_IZQ
+ENDM
+
+DERECHA MACRO
+ BCF MDA
+ BSF MIA
+ BCF MDB
+ BCF MIB
+ BCF LED_ROJO
+ BSF LED_DER
+ BCF LED_IZQ
+ENDM
+
+IZQUIERDA MACRO
+ BSF MDA
+ BCF MIA
+ BCF MDB
+ BCF MIB
+ BCF LED_ROJO
+ BCF LED_DER
+ BSF LED_IZQ
+ENDM
+ 
+ 
+encender_LED:
+ BSF	LED_ROJO
+ NOP
+ return
 
 INISYS:
     bcf		STATUS,6	;BK1
     bsf		STATUS,5
     
-    bsf		TRISC, 0	        ;PORT (C0) S1 ENTRADA
-    bsf		TRISC, 1		;PORT (C1) S2 ENTRADA
-    bsf		TRISC, 2		;PORT (C2) S3 ENTRADA
-    bsf		TRISC, 3		;PORT (C3) S4 ENTRADA
-    bsf		TRISC, 4		;PORT (C4) S5 ENTRADA
+    bsf		TRISB, 0	        ;PORT (C0) S1 ENTRADA
+    bsf		TRISB, 1		;PORT (C1) S2 ENTRADA
+    bsf		TRISB, 2		;PORT (C2) S3 ENTRADA
+    bsf		TRISB, 3		;PORT (C3) S4 ENTRADA
+    bsf		TRISB, 4		;PORT (C4) S5 ENTRADA
     
     bcf		TRISD, 0	        ;PORT (D0) MA1 SALIDA
     bcf		TRISD, 1		;PORT (D1) MA2 SALIDA
@@ -48,16 +111,9 @@ INISYS:
    
     ;*************************     
     BCF STATUS, 5 ; BK0 
-    
+    STOP
    MAIN:
-    BCF PORTD,1
-    BCF PORTD,2
-    BCF PORTD,3
-    BCF PORTD,4
-    BSF PORTD,5
-    BSF PORTD,6
-    BSF PORTD,7
-    
+    NOP
     GOTO MAIN
 
     END resetVec
