@@ -192,7 +192,7 @@ main:
     ANDWF 0x32,0
     MOVF 0x38
 
-	; OPERACIONES AND PARA MD
+    ; OPERACIONES AND PARA MD
 
     ; OPERATION R39 = S0 * !S4
     MOVF 0x34,0
@@ -221,9 +221,9 @@ main:
     ANDWF 0x27,0
     MOVWF 0x43
 
-	; OPERACIONES AND PARA RD
+    ; OPERACIONES AND PARA RD
 
-	; OPERATION R44 = !S0 * !S2
+    ; OPERATION R44 = !S0 * !S2
     MOVF 0x35,0
     ANDWF 0x27,0
     MOVWF 0x44
@@ -427,17 +427,17 @@ main:
 
     ;ASIGNACION DE SALIDAS
 
-
-    BTFSC 0x70,0 ;MI
-    BSF PORTD,1
-
-    BTFSC 0x72,0 ;MD
+    BCF PORTD,1
+    BTFSC 0x70,0 ;MI x
+    goto MI_on
+ask_MI:    
+    BTFSC 0x72,0 ;MD x
     BSF PORTD,2
 
-    BTFSC 0x73,0 ;RI
+    BTFSC 0x73,0 ;RI x
     BSF PORTD,3
 
-    BTFSC 0x74,0 ;RD
+    BTFSC 0x74,0 ;RD x
     BSF PORTD,4
 
     BTFSC 0x79,0 ;RIGHT
@@ -449,6 +449,18 @@ main:
     BTFSC 0x76,0 ;LEFT
     BSF PORTD,7
 
+MI_on:    
+    BSF PORTD,1
+    goto ask_MI
+MI_off:    
+    BCF PORTD,1    
+MD_on:    
+    BSF PORTD,1
+RI_on:    
+    BSF PORTD,1
+RD_on:    
+    BSF PORTD,1
+    
     GOTO main
 
     END resetVec
