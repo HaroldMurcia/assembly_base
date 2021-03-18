@@ -38,9 +38,9 @@ resetVec:
 #define	MDB PORTD,5
 #define	MIA PORTD,6
 #define	MIB PORTD,7  
-#define S_CEN PORTB,0  
-#define S_DER PORTB,1  
-#define S_IZQ PORTB,2  
+#define S_CEN PORTB,1  
+#define S_DER PORTB,2  
+#define S_IZQ PORTB,0  
     
 PSECT code
 
