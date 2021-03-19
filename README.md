@@ -13,3 +13,11 @@ In .X MPLABX folder:
 $ sudo make clean
 $ sudo make all
 ```
+
+## How update a repo?
+In repo folder:
+```console
+$ git add .
+$ git commit -m "here_comment"
+$ git push origin
+```
